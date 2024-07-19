@@ -113,7 +113,7 @@
                     var weight = document.getElementById('weight').value;
                     var height = document.getElementById('height').value;
 
-                    var url = `http://127.0.0.1:8000/calculate_bmi?weight=${weight}&height=${height}`;
+                    var url = `https://vercel.com/calculate_bmi?weight=${weight}&height=${height}`;
 
                     fetch(url)
                         .then((response) => response.json())
