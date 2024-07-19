@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>BMI Calculator</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f0f4f8;
+                color: #333;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .container {
+                background-color: #fff;
+                padding: 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                max-width: 400px;
+                width: 100%;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 1.5rem;
+                color: #007bff;
+            }
+            label {
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+            input[type='number'] {
+                width: calc(100% - 2rem);
+                padding: 0.5rem 1rem;
+                margin-bottom: 1rem;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            .button {
+                background-color: #007bff;
+                color: white;
+                padding: 0.75rem 1rem;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 100%;
+                font-size: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background-color 0.3s;
+            }
+            .button:hover {
+                background-color: #0056b3;
+            }
+            .button i {
+                margin-right: 0.5rem;
+            }
+            .result {
+                margin-top: 2rem;
+                padding: 1rem;
+                border-radius: 4px;
+                background-color: #e9ecef;
+                text-align: center;
+                display: none;
+            }
+            .result p {
+                margin: 0.5rem 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>BMI Calculator</h1>
+            <form id="bmiForm">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" name="weight" required />
+
+                <label for="height">Height (m):</label>
+                <input
+                    type="number"
+                    id="height"
+                    name="height"
+                    step="0.01"
+                    required
+                />
+
+                <button type="submit" class="button">
+                    <i class="fas fa-calculator"></i> Calculate BMI
+                </button>
+            </form>
+
+            <div id="result" class="result">
+                <p id="bmi"></p>
+                <p id="message"></p>
+            </div>
+        </div>
+
+        <script>
+            document
+                .getElementById('bmiForm')
+                .addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    var weight = document.getElementById('weight').value;
+                    var height = document.getElementById('height').value;
+
+                    var url = `http://127.0.0.1:8000/calculate_bmi?weight=${weight}&height=${height}`;
+
+                    fetch(url)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            document.getElementById(
+                                'bmi'
+                            ).textContent = `BMI: ${data.bmi.toFixed(2)}`;
+                            document.getElementById(
+                                'message'
+                            ).textContent = `Message: ${data.message}`;
+                            document.getElementById('result').style.display =
+                                'block';
+                        })
+                        .catch((error) => console.error('Error:', error));
+                });
+        </script>
+    </body>
+</html>
